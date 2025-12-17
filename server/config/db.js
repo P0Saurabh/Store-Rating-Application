@@ -7,6 +7,12 @@ dotenv.config({ path: path.join(__dirname, '../.env') });
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'mysql',
     logging: false, // Set to console.log to see SQL queries
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false // Required for some cloud providers like PlanetScale/Railway
+        }
+    },
 });
 
 const connectDB = async () => {
