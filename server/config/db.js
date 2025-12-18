@@ -4,15 +4,24 @@ const dotenv = require('dotenv');
 const path = require('path');
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
-const sequelize = new Sequelize(process.env.DATABASE_URL || 'postgres://user:pass@example.com:5432/dbname', {
+const isProduction = process.env.NODE_ENV === 'production';
+const dbUrl = process.env.DATABASE_URL;
+
+if (!dbUrl) {
+    console.error("⚠️  DATABASE_URL is missing! Using fallback for safe startup.");
+}
+
+// Fallback to localhost to ensure we don't crash on startup, but fail gracefully at connection time
+// We disable SSL for the fallback to prevent immediate 'self signed certificate' errors or protocol mismatch
+const sequelize = new Sequelize(dbUrl || 'postgres://fallback:fallback@127.0.0.1:5432/fallback', {
     dialect: 'postgres',
-    logging: false,
-    dialectOptions: {
+    logging: false, // console.log to see SQL queries
+    dialectOptions: dbUrl ? {
         ssl: {
             require: true,
             rejectUnauthorized: false
         }
-    },
+    } : {}, // No SSL for fallback/localhost
     pool: {
         max: 5,
         min: 0,
