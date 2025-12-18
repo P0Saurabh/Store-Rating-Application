@@ -40,7 +40,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 body: JSON.stringify({ email, password }),
             });
 
-            const data = await response.json();
+            const text = await response.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                console.error("Failed to parse response:", text);
+                throw new Error(`Server Error: ${text.substring(0, 50)}...`);
+            }
 
             if (!response.ok) {
                 throw new Error(data.message || 'Login failed');
