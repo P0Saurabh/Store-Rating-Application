@@ -35,11 +35,9 @@ const connectDB = async () => {
         await sequelize.authenticate();
         console.log('✅ Database connected successfully.');
 
-        // Only sync in development to avoid schema changes in production
-        if (process.env.NODE_ENV !== 'production') {
-            await sequelize.sync({ alter: true });
-            console.log('Database synced.');
-        }
+        // Sync database (Use { alter: true } to update schema without dropping data)
+        await sequelize.sync({ alter: true });
+        console.log('Database synced.');
     } catch (error) {
         console.error('❌ Unable to connect to the database:', error.message);
         throw error;
