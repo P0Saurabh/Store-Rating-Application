@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config({ path: require('path').join(__dirname, '../server/.env') });
+// Only load dotenv in development
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config({ path: require('path').join(__dirname, '../server/.env') });
+}
 
 const app = express();
 
