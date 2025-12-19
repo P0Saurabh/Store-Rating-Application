@@ -1,5 +1,7 @@
 const config = {
-    API_URL: import.meta.env.VITE_API_URL || (import.meta.env.PROD ? "/api" : "http://localhost:5000/api"),
+    API_URL: typeof window !== 'undefined' && window.location.hostname === 'localhost'
+        ? "http://localhost:5000/api"
+        : "/api",
 };
 
 export default config;

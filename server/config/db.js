@@ -14,6 +14,7 @@ if (!process.env.DATABASE_URL) {
 // Fallback to localhost to ensure we don't crash on startup
 const sequelize = new Sequelize(process.env.DATABASE_URL || 'postgres://fallback:fallback@127.0.0.1:5432/fallback', {
     dialect: 'postgres',
+    dialectModule: require('pg'),
     logging: false,
     dialectOptions: process.env.DATABASE_URL ? {
         ssl: {
