@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/Card';
+import config from '../config';
 import { Button } from '../components/Button';
 import { Plus, Search, MoreHorizontal, Users, Activity, Store as StoreIcon } from 'lucide-react';
 import { Input } from '../components/Input';
@@ -51,9 +52,9 @@ const AdminDashboard = () => {
     const fetchData = async () => {
         try {
             const [usersRes, storesRes, statsRes] = await Promise.all([
-                fetch('http://localhost:5000/api/users', { headers }),
-                fetch('http://localhost:5000/api/stores', { headers }),
-                fetch('http://localhost:5000/api/stats/admin', { headers })
+                fetch(`${config.API_URL}/users`, { headers }),
+                fetch(`${config.API_URL}/stores`, { headers }),
+                fetch(`${config.API_URL}/stats/admin`, { headers })
             ]);
 
             if (usersRes.ok) setUsers(await usersRes.json());
@@ -74,7 +75,7 @@ const AdminDashboard = () => {
         e.preventDefault();
         setFormError('');
         try {
-            const res = await fetch('http://localhost:5000/api/users', {
+            const res = await fetch(`${config.API_URL}/users`, {
                 method: 'POST',
                 headers: { ...headers, 'Content-Type': 'application/json' },
                 body: JSON.stringify(newUser)
