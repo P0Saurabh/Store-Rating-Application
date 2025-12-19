@@ -27,7 +27,7 @@ try {
 
     // Install Client Dependencies
     console.log('Installing client dependencies...');
-    execSync('npm install', { cwd: clientDir, stdio: 'inherit', shell: true });
+    execSync('npm install --include=dev', { cwd: clientDir, stdio: 'inherit', shell: true });
 
     // Build Client
     console.log('Building client...');
