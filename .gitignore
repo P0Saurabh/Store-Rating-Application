@@ -4,10 +4,10 @@ client/node_modules/
 server/node_modules/
 
 # Environment variables
+# Environment variables
 .env
-server/.env
 client/.env
-
+server/.env
 # Build outputs
 dist/
 build/
